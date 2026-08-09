@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nicola (nqwrc) — Data Analyst & Supply Chain Engineering</title>
+<meta name="description" content="Portfolio of Nicola (nqwrc) — Data Analyst specializing in Warehouse KPIs, Transport Performance, and Quality Control Pipelines. Python, SQL, Streamlit, TypeScript.">
+<meta name="keywords" content="Data Analyst, Supply Chain Analyst, Logistics, Python, SQL, Streamlit, Warehousing, Ravenna, Remote">
+<meta property="og:title" content="Nicola (nqwrc) — Data & Supply Chain Analyst">
+<meta property="og:description" content="Operational datasets, interactive dashboards, and data pipelines built from real logistics experience.">
+<meta property="og:type" content="website">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg-gradient: radial-gradient(circle at 50% 0%, #151d2a 0%, #0b0e14 100%);
+    --bg: #0b0e14;
+    --panel: rgba(22, 27, 34, 0.75);
+    --panel-hover: rgba(30, 38, 48, 0.85);
+    --border: rgba(255, 255, 255, 0.1);
+    --border-accent: rgba(88, 166, 255, 0.4);
+    --text: #f0f6fc;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --accent-glow: rgba(88, 166, 255, 0.25);
+    --green: #3fb950;
+    --green-glow: rgba(63, 185, 80, 0.2);
+    --purple: #bc8cff;
+    --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    background-image: var(--bg-gradient);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+
+  .wrap {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 24px;
+  }
+
+  /* Header Section */
+  header {
+    background: var(--panel);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px;
+    margin-bottom: 40px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--purple), var(--green));
+  }
+
+  h1 {
+    font-family: var(--font-heading);
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+  }
+
+  h1 span {
+    background: linear-gradient(135deg, #58a6ff 0%, #bc8cff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .tagline {
+    color: var(--muted);
+    font-size: 1.05rem;
+    max-width: 68ch;
+    margin-bottom: 24px;
+  }
+
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .badge {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--muted);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 4px 14px;
+    transition: all 0.2s ease;
+  }
+
+  .badge:hover {
+    border-color: var(--accent);
+    color: var(--text);
+  }
+
+  .badge.open {
+    color: var(--green);
+    border-color: rgba(63, 185, 80, 0.4);
+    background: var(--green-glow);
+    font-weight: 600;
+  }
+
+  /* Section Titles */
+  h2 {
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin: 40px 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  h2 small {
+    color: var(--muted);
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 0.9rem;
+  }
+
+  /* Grid & Cards */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    background: var(--panel);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 16px;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: var(--border-accent);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4), 0 0 16px var(--accent-glow);
+  }
+
+  .card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 600;
+  }
+
+  .card h3 a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .card h3 a:hover {
+    color: #79c0ff;
+    text-decoration: underline;
+  }
+
+  .card p {
+    font-size: 0.92rem;
+    color: var(--muted);
+    flex-grow: 1;
+  }
+
+  .stack {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+    background: rgba(0, 0, 0, 0.25);
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .stack b {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .links {
+    display: flex;
+    gap: 14px;
+    font-size: 0.88rem;
+    font-weight: 500;
+  }
+
+  .links a {
+    color: var(--accent);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.15s;
+  }
+
+  .links a:hover {
+    color: #79c0ff;
+    text-decoration: underline;
+  }
+
+  /* Footer */
+  footer {
+    margin-top: 60px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.92rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  footer a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  footer a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 640px) {
+    header { padding: 24px; }
+    h1 { font-size: 1.8rem; }
+    footer { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1><span>Nicola</span> · nqwrc</h1>
+    <p class="tagline">
+      Data &amp; Supply Chain Analyst. I translate warehouse operations, transport performance, and industrial QA into clean datasets, automated SQL pipelines, and interactive Streamlit dashboards.
+    </p>
+    <div class="badges">
+      <span class="badge open">● Open to Remote / Hybrid Roles (Data &amp; Supply Chain Analyst)</span>
+      <span class="badge">Python</span>
+      <span class="badge">pandas</span>
+      <span class="badge">SQL / SQLite</span>
+      <span class="badge">Streamlit</span>
+      <span class="badge">TypeScript</span>
+      <span class="badge">three.js</span>
+    </div>
+  </header>
+
+  <h2>Data &amp; Supply Chain Projects <small>Real-world logistics models &amp; pipelines</small></h2>
+  <div class="grid">
+    <div class="card">
+      <div>
+        <h3><a href="https://github.com/nqwrc/warehouse-kpi-dashboard">warehouse-kpi-dashboard</a></h3>
+        <p>Picking accuracy KPI tracking against a 1% error threshold, operator Pareto analysis, inventory turnover, and 30-day cold-storage expiry risk alerting.</p>
+      </div>
+      <div class="stack"><b>Python · SQLite · Streamlit</b> — 6 KPI queries + interactive dashboard</div>
+      <div class="links">
+        <a href="https://github.com/nqwrc/warehouse-kpi-dashboard">📦 Code on GitHub</a>
+      </div>
+    </div>
+    <div class="card">
+      <div>
+        <h3><a href="https://github.com/nqwrc/transport-performance-analysis">transport-performance-analysis</a></h3>
+        <p>On-time delivery performance vs agreed windows, cost-per-route vs cost-per-item analytics, and delivery discrepancy identification across B2B/B2C routes.</p>
+      </div>
+      <div class="stack"><b>Python · pandas · Jupyter</b></div>
+      <div class="links">
+        <a href="https://github.com/nqwrc/transport-performance-analysis">📊 Code on GitHub</a>
+      </div>
+    </div>
+    <div class="card">
+      <div>
+        <h3><a href="https://github.com/nqwrc/qa-reporting-pipeline">qa-reporting-pipeline</a></h3>
+        <p>Automated ingestion, validation, and weekly reporting pipeline for industrial non-destructive testing (NDT) quality-control data.</p>
+      </div>
+      <div class="stack"><b>Python · SQL · CLI</b></div>
+      <div class="links">
+        <a href="https://github.com/nqwrc/qa-reporting-pipeline">⚡ Code on GitHub</a>
+      </div>
+    </div>
+  </div>
+
+  <h2>Software &amp; Tools</h2>
+  <div class="grid">
+    <div class="card">
+      <div>
+        <h3><a href="https://github.com/nqwrc/glowbind">glowbind</a></h3>
+        <p>Interactive keyboard shortcut trainer featuring natural-language search and real-time OpenRGB hardware illumination (~250 shortcuts across 7 apps).</p>
+      </div>
+      <div class="stack"><b>TypeScript · OpenRGB</b></div>
+      <div class="links">
+        <a href="https://github.com/nqwrc/glowbind">Code</a>
+        <a href="https://nqwrc.github.io/glowbind/">Live Demo ↗</a>
+      </div>
+    </div>
+    <div class="card">
+      <div>
+        <h3><a href="https://github.com/nqwrc/3d-anatomy">3d-anatomy</a></h3>
+        <p>Interactive 3D web atlas of human anatomy — rendering 2,800+ anatomical structures across seven body systems directly in the browser (Z-Anatomy dataset).</p>
+      </div>
+      <div class="stack"><b>three.js · WebGL</b></div>
+      <div class="links">
+        <a href="https://github.com/nqwrc/3d-anatomy">Code</a>
+        <a href="https://nqwrc.github.io/3d-anatomy/">Live Demo ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div>
+      📫 <a href="mailto:nicola.pandolfi@proton.me">nicola.pandolfi@proton.me</a>
+      &nbsp;·&nbsp; <a href="https://github.com/nqwrc">github.com/nqwrc</a>
+    </div>
+    <div>
+      <span>Ravenna, Italy (UTC+2)</span>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
