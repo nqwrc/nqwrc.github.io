@@ -17,7 +17,6 @@
 
 <style>
   :root {
-    --bg-gradient: radial-gradient(circle at 50% 0%, #151d2a 0%, #0b0e14 100%);
     --bg: #0b0e14;
     --panel: rgba(22, 27, 34, 0.75);
     --panel-hover: rgba(30, 38, 48, 0.85);
@@ -29,7 +28,6 @@
     --accent-glow: rgba(88, 166, 255, 0.25);
     --green: #3fb950;
     --green-glow: rgba(63, 185, 80, 0.2);
-    --purple: #bc8cff;
     --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
     --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
@@ -39,96 +37,80 @@
 
   body {
     background: var(--bg);
-    background-image: var(--bg-gradient);
     color: var(--text);
     font-family: var(--font-body);
     font-size: 16px;
     line-height: 1.6;
     min-height: 100vh;
-    padding: 40px 20px;
   }
 
-  .wrap {
-    max-width: 920px;
-    margin: 0 auto;
-    padding: 24px;
-  }
-
-  /* Header Section */
-  header {
-    background: var(--panel);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 36px;
-    margin-bottom: 40px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  /* Hero: full-bleed satellite constellation, text on the left */
+  .hero {
     position: relative;
+    height: clamp(520px, 68vh, 680px);
     overflow: hidden;
-    min-height: 320px;
+    border-bottom: 1px solid var(--border);
   }
 
-  /* Satellite links hero graphic: sits behind the header text */
-  header > :not(.orbits) {
-    position: relative;
-    z-index: 1;
-  }
-
-  .orbits {
+  .hero canvas {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none;
-    z-index: 0;
+    display: block;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .orbits .packet { display: none; }
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 968px;
+    margin: 0 auto;
+    padding: 0 44px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 22px;
   }
 
-  header::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--accent), var(--purple), var(--green));
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
   }
 
   h1 {
     font-family: var(--font-heading);
-    font-size: 2.2rem;
+    font-size: 3.4rem;
     font-weight: 700;
-    letter-spacing: -0.5px;
-    margin-bottom: 12px;
+    letter-spacing: -1px;
+    line-height: 1.05;
   }
 
-  h1 span {
-    background: linear-gradient(135deg, #58a6ff 0%, #bc8cff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
+  h1 span { color: var(--accent); }
 
   .tagline {
     color: var(--muted);
-    font-size: 1.05rem;
-    max-width: 52ch;
-    margin-bottom: 24px;
+    font-size: 1.1rem;
+    font-weight: 300;
+    max-width: 50ch;
   }
 
   .badges {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    max-width: 520px;
+    max-width: 560px;
+    margin-top: 6px;
   }
 
   .badge {
     font-size: 0.8rem;
     font-weight: 500;
     color: var(--muted);
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(11, 14, 20, 0.6);
     border: 1px solid var(--border);
     border-radius: 999px;
     padding: 4px 14px;
@@ -145,6 +127,12 @@
     border-color: rgba(63, 185, 80, 0.4);
     background: var(--green-glow);
     font-weight: 600;
+  }
+
+  .wrap {
+    max-width: 968px;
+    margin: 0 auto;
+    padding: 16px 44px 48px;
   }
 
   /* Section Titles */
@@ -275,66 +263,38 @@
   }
 
   @media (max-width: 640px) {
-    header { padding: 24px; }
-    h1 { font-size: 1.8rem; }
+    .hero { height: clamp(520px, 78vh, 640px); }
+    .hero-inner { padding: 0 24px; justify-content: flex-end; padding-bottom: 40px; }
+    .wrap { padding: 8px 24px 40px; }
+    h1 { font-size: 2.4rem; }
+    .tagline { font-size: 1rem; }
     footer { flex-direction: column; align-items: flex-start; }
   }
 </style>
 </head>
 <body>
-<div class="wrap">
 
-  <header>
-    <svg class="orbits" viewBox="0 0 920 320" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="orbits-fade" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0.5" stop-color="#fff" stop-opacity="0"/>
-          <stop offset="0.66" stop-color="#fff" stop-opacity="1"/>
-        </linearGradient>
-        <mask id="orbits-mask"><rect width="920" height="320" fill="url(#orbits-fade)"/></mask>
-      </defs>
-      <circle cx="460" cy="1706" r="1400" fill="none" stroke="#f0f6fc" stroke-opacity="0.16" stroke-width="1"/>
-      <g mask="url(#orbits-mask)">
-        <g fill="none" stroke="#f0f6fc" stroke-width="1" stroke-opacity="0.09" stroke-dasharray="1 6">
-          <circle cx="460" cy="1706" r="1480"/>
-          <circle cx="460" cy="1706" r="1560"/>
-        </g>
-        <g fill="none" stroke="#58a6ff" stroke-width="1" stroke-linecap="round">
-          <line x1="623" y1="155" x2="730" y2="251" stroke-opacity="0.35" stroke-dasharray="4 6"/>
-          <line x1="730" y1="251" x2="864" y2="199" stroke-opacity="0.35" stroke-dasharray="4 6"/>
-          <line x1="623" y1="155" x2="864" y2="199" stroke-opacity="0.2" stroke-dasharray="4 6"/>
-          <line x1="730" y1="251" x2="582" y2="311" stroke-opacity="0.9"/>
-        </g>
-        <g fill="none" stroke="#f0f6fc" stroke-width="1" stroke-opacity="0.5">
-          <line x1="623" y1="147" x2="623" y2="142"/>
-          <line x1="864" y1="191" x2="864" y2="186"/>
-        </g>
-        <g fill="#f0f6fc">
-          <circle cx="623" cy="155" r="2.5"/>
-          <circle cx="864" cy="199" r="2.5"/>
-        </g>
-        <circle cx="730" cy="251" r="3" fill="#58a6ff"/>
-        <circle cx="730" cy="251" r="10" fill="none" stroke="#58a6ff" stroke-opacity="0.4" stroke-width="1"/>
-        <circle cx="582" cy="311" r="4" fill="none" stroke="#58a6ff" stroke-opacity="0.9" stroke-width="1"/>
-        <circle class="packet" r="1.5" fill="#f0f6fc">
-          <animateMotion dur="4s" repeatCount="indefinite" path="M730,251 L582,311"/>
-        </circle>
-      </g>
-    </svg>
-    <h1><span>Nicola</span> · nqwrc</h1>
-    <p class="tagline">
-      Data &amp; Supply Chain Analyst. I translate warehouse operations, transport performance, and industrial QA into clean datasets, automated SQL pipelines, and interactive Streamlit dashboards.
-    </p>
-    <div class="badges">
-      <span class="badge open">● Open to Remote / Hybrid Roles (Data &amp; Supply Chain Analyst)</span>
-      <span class="badge">Python</span>
-      <span class="badge">pandas</span>
-      <span class="badge">SQL / SQLite</span>
-      <span class="badge">Streamlit</span>
-      <span class="badge">TypeScript</span>
-      <span class="badge">three.js</span>
+  <section class="hero">
+    <canvas id="sky" aria-hidden="true"></canvas>
+    <div class="hero-inner">
+      <div class="eyebrow">Data &amp; Supply Chain Analyst · Ravenna, Italy</div>
+      <h1><span>Nicola</span> · nqwrc</h1>
+      <p class="tagline">
+        I translate warehouse operations, transport performance, and industrial QA into clean datasets, automated SQL pipelines, and interactive Streamlit dashboards.
+      </p>
+      <div class="badges">
+        <span class="badge open">● Open to Remote / Hybrid Roles</span>
+        <span class="badge">Python</span>
+        <span class="badge">pandas</span>
+        <span class="badge">SQL / SQLite</span>
+        <span class="badge">Streamlit</span>
+        <span class="badge">TypeScript</span>
+        <span class="badge">three.js</span>
+      </div>
     </div>
-  </header>
+  </section>
+
+<div class="wrap">
 
   <h2>Data &amp; Supply Chain Projects <small>Real-world logistics models &amp; pipelines</small></h2>
   <div class="grid">
@@ -407,5 +367,219 @@
   </footer>
 
 </div>
+
+<script>
+(function () {
+  var canvas = document.getElementById('sky');
+  if (!canvas || !canvas.getContext) return;
+  var ctx = canvas.getContext('2d');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var ACC = '88,166,255';
+  var INK = '240,246,252';
+  var W = 0, H = 0, R = 0, cx = 0, cy = 0, linkRange = 0;
+  var shells = [], sats = [], stations = [], stars = [];
+  var still = document.createElement('canvas'), sctx = still.getContext('2d');
+  var seed = 7;
+  function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+
+  // Angular window of a circle of radius r that lies inside the canvas.
+  function windowFor(r, xmin) {
+    var lo = null, hi = null, m = 24;
+    for (var a = -Math.PI; a <= 0; a += 0.002) {
+      var x = cx + r * Math.cos(a), y = cy + r * Math.sin(a);
+      if (x >= xmin && x <= W + m && y >= -m && y <= H + m) {
+        if (lo === null) lo = a;
+        hi = a;
+      }
+    }
+    if (lo === null) { lo = -Math.PI * 0.75; hi = -Math.PI * 0.5; }
+    return [lo, hi];
+  }
+
+  function setup() {
+    var rect = canvas.getBoundingClientRect();
+    W = rect.width; H = rect.height;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    seed = 7;
+    var mobile = W < 640;
+    R = W * (mobile ? 1.6 : 1.15);
+    cx = W * (mobile ? 1.15 : 0.98);
+    cy = H * (mobile ? 0.34 : 0.44) + R;
+    linkRange = Math.max(W * 0.15, 130);
+
+    var step = mobile ? W * 0.17 : W * 0.095;
+    var radii = [R + step, R + step * 2, R + step * 3];
+    var counts = mobile ? [5, 6, 6] : [8, 9, 10];
+    shells = []; sats = [];
+    for (var i = 0; i < radii.length; i++) {
+      var win = windowFor(radii[i], mobile ? -24 : W * 0.34);
+      shells.push({ r: radii[i], lo: win[0], hi: win[1] });
+      var span = win[1] - win[0];
+      for (var k = 0; k < counts[i]; k++) {
+        sats.push({
+          shell: i,
+          a: win[0] + span * ((k + 0.5) / counts[i]) + (rnd() - 0.5) * span / counts[i] * 0.8,
+          w: 0.000028 * (radii[0] / radii[i]) * (i % 2 === 0 ? 1 : 1.35),
+          active: (k % 4 === 1)
+        });
+      }
+    }
+
+    var lw = windowFor(R, mobile ? -24 : W * 0.34);
+    stations = [];
+    var fr = mobile ? [0.62, 0.86] : [0.3, 0.58, 0.82];
+    for (var s = 0; s < fr.length; s++) stations.push({ a: lw[0] + (lw[1] - lw[0]) * fr[s] });
+
+    stars = [];
+    var n = mobile ? 28 : 56;
+    for (var j = 0; j < n; j++) stars.push({ x: rnd() * W, y: rnd() * H, o: 0.08 + rnd() * 0.18 });
+
+    still.width = canvas.width; still.height = canvas.height;
+    sctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    drawStill(sctx);
+  }
+
+  function drawStill(c) {
+    c.clearRect(0, 0, W, H);
+    for (var i = 0; i < stars.length; i++) {
+      c.fillStyle = 'rgba(' + INK + ',' + stars[i].o + ')';
+      c.fillRect(stars[i].x, stars[i].y, 1, 1);
+    }
+    var g = c.createRadialGradient(cx, cy, R - 160, cx, cy, R);
+    g.addColorStop(0, 'rgba(' + ACC + ',0)');
+    g.addColorStop(1, 'rgba(' + ACC + ',0.13)');
+    c.fillStyle = g;
+    c.beginPath(); c.arc(cx, cy, R, 0, Math.PI * 2); c.fill();
+    c.save();
+    c.shadowColor = 'rgba(' + ACC + ',0.7)';
+    c.shadowBlur = 28;
+    c.strokeStyle = 'rgba(' + INK + ',0.55)';
+    c.lineWidth = 1.2;
+    c.beginPath(); c.arc(cx, cy, R, -Math.PI, 0); c.stroke();
+    c.restore();
+    c.lineWidth = 1;
+    for (var s = 0; s < shells.length; s++) {
+      c.strokeStyle = 'rgba(' + INK + ',0.07)';
+      c.beginPath(); c.arc(cx, cy, shells[s].r, shells[s].lo - 0.2, shells[s].hi + 0.2); c.stroke();
+    }
+  }
+
+  function pos(r, a) { return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; }
+
+  function edgeFade(sat) {
+    var sh = shells[sat.shell], e = 0.05;
+    var d = Math.min(sat.a - sh.lo, sh.hi - sat.a);
+    return d <= 0 ? 0 : d >= e ? 1 : d / e;
+  }
+
+  function draw(t) {
+    ctx.clearRect(0, 0, W, H);
+    ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.drawImage(still, 0, 0); ctx.restore();
+    ctx.lineWidth = 1;
+
+    // satellite positions
+    var P = [];
+    for (var k = 0; k < sats.length; k++) {
+      var sat = sats[k];
+      var p = pos(shells[sat.shell].r, sat.a);
+      P.push({ x: p[0], y: p[1], f: edgeFade(sat), active: sat.active });
+    }
+
+    // link mesh: nearby satellites talk to each other
+    for (var a = 0; a < P.length; a++) {
+      for (var b = a + 1; b < P.length; b++) {
+        var dx = P[a].x - P[b].x, dy = P[a].y - P[b].y;
+        var d = Math.sqrt(dx * dx + dy * dy);
+        if (d > linkRange) continue;
+        var al = 0.42 * (1 - d / linkRange) * P[a].f * P[b].f;
+        if (al < 0.01) continue;
+        ctx.strokeStyle = 'rgba(' + ACC + ',' + al + ')';
+        ctx.beginPath(); ctx.moveTo(P[a].x, P[a].y); ctx.lineTo(P[b].x, P[b].y); ctx.stroke();
+      }
+    }
+
+    // ground stations + uplinks with a travelling packet
+    for (var q = 0; q < stations.length; q++) {
+      var gp = pos(R, stations[q].a);
+      var best = -1, bd = 1e9;
+      for (var m = 0; m < P.length; m++) {
+        var ex = P[m].x - gp[0], ey = P[m].y - gp[1];
+        var ed = Math.sqrt(ex * ex + ey * ey) / Math.max(P[m].f, 0.05);
+        if (ed < bd) { bd = ed; best = m; }
+      }
+      if (best >= 0) {
+        var tp = P[best];
+        ctx.strokeStyle = 'rgba(' + ACC + ',' + (0.6 * tp.f) + ')';
+        ctx.beginPath(); ctx.moveTo(gp[0], gp[1]); ctx.lineTo(tp.x, tp.y); ctx.stroke();
+        var u = ((t / 2600) + q * 0.37) % 1;
+        var px = gp[0] + (tp.x - gp[0]) * u, py = gp[1] + (tp.y - gp[1]) * u;
+        ctx.fillStyle = 'rgba(' + INK + ',' + (0.95 * tp.f) + ')';
+        ctx.beginPath(); ctx.arc(px, py, 1.6, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.strokeStyle = 'rgba(' + ACC + ',0.9)';
+      ctx.beginPath(); ctx.arc(gp[0], gp[1], 4, 0, Math.PI * 2); ctx.stroke();
+      ctx.fillStyle = 'rgba(' + ACC + ',0.9)';
+      ctx.beginPath(); ctx.arc(gp[0], gp[1], 1.4, 0, Math.PI * 2); ctx.fill();
+    }
+
+    // satellites
+    for (var n = 0; n < P.length; n++) {
+      var sp = P[n];
+      if (sp.f <= 0) continue;
+      if (sp.active) {
+        var ph = ((t / 3200) + n * 0.21) % 1;
+        ctx.strokeStyle = 'rgba(' + ACC + ',' + (0.45 * (1 - ph) * sp.f) + ')';
+        ctx.beginPath(); ctx.arc(sp.x, sp.y, 6 + 14 * ph, 0, Math.PI * 2); ctx.stroke();
+        ctx.strokeStyle = 'rgba(' + ACC + ',' + (0.5 * sp.f) + ')';
+        ctx.beginPath(); ctx.arc(sp.x, sp.y, 7, 0, Math.PI * 2); ctx.stroke();
+        ctx.fillStyle = 'rgba(' + ACC + ',' + sp.f + ')';
+        ctx.beginPath(); ctx.arc(sp.x, sp.y, 2.6, 0, Math.PI * 2); ctx.fill();
+      } else {
+        ctx.fillStyle = 'rgba(' + INK + ',' + (0.9 * sp.f) + ')';
+        ctx.beginPath(); ctx.arc(sp.x, sp.y, 2, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+
+    // keep the text side quiet
+    var fade = ctx.createLinearGradient(0, 0, W * 0.62, 0);
+    fade.addColorStop(0, 'rgba(11,14,20,0.92)');
+    fade.addColorStop(0.55, 'rgba(11,14,20,0.55)');
+    fade.addColorStop(1, 'rgba(11,14,20,0)');
+    ctx.fillStyle = fade;
+    ctx.fillRect(0, 0, W * 0.62, H);
+  }
+
+  var last = 0, running = false;
+  function frame(t) {
+    if (!running) return;
+    var dt = last ? Math.min(t - last, 50) : 0;
+    last = t;
+    for (var i = 0; i < sats.length; i++) {
+      var sat = sats[i], sh = shells[sat.shell];
+      sat.a += sat.w * dt;
+      if (sat.a > sh.hi) sat.a = sh.lo + (sat.a - sh.hi);
+    }
+    draw(t);
+    requestAnimationFrame(frame);
+  }
+
+  function start() {
+    if (reduce) { draw(0); return; }
+    if (running) return;
+    running = true; last = 0;
+    requestAnimationFrame(frame);
+  }
+  function stop() { running = false; }
+
+  setup();
+  start();
+  window.addEventListener('resize', function () { setup(); if (reduce) draw(0); });
+  document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
+})();
+</script>
 </body>
 </html>
