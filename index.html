@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nicola (nqwrc) — Data Analyst & Supply Chain Engineering</title>
+<title>Nicola (nqwrc) — Data Analyst &amp; Supply Chain Engineering</title>
 <meta name="description" content="Portfolio of Nicola (nqwrc) — Data Analyst specializing in Warehouse KPIs, Transport Performance, and Quality Control Pipelines. Python, SQL, Streamlit, TypeScript.">
 <meta name="keywords" content="Data Analyst, Supply Chain Analyst, Logistics, Python, SQL, Streamlit, Warehousing, Ravenna, Remote">
-<meta property="og:title" content="Nicola (nqwrc) — Data & Supply Chain Analyst">
+<meta property="og:title" content="Nicola (nqwrc) — Data &amp; Supply Chain Analyst">
 <meta property="og:description" content="Operational datasets, interactive dashboards, and data pipelines built from real logistics experience.">
 <meta property="og:type" content="website">
 
@@ -18,25 +18,28 @@
 <style>
   :root {
     --bg: #0b0e14;
-    --panel: rgba(22, 27, 34, 0.75);
-    --panel-hover: rgba(30, 38, 48, 0.85);
-    --border: rgba(255, 255, 255, 0.1);
-    --border-accent: rgba(88, 166, 255, 0.4);
+    --border: rgba(255, 255, 255, 0.11);
+    --border-strong: rgba(255, 255, 255, 0.2);
+    --border-accent: rgba(88, 166, 255, 0.45);
     --text: #f0f6fc;
-    --muted: #8b949e;
+    --muted: #a3aebc;
+    --faint: #7d8794;
     --accent: #58a6ff;
-    --accent-glow: rgba(88, 166, 255, 0.25);
+    --accent-glow: rgba(88, 166, 255, 0.22);
     --green: #3fb950;
-    --green-glow: rgba(63, 185, 80, 0.2);
+    --green-glow: rgba(63, 185, 80, 0.16);
     --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
     --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  /* The page paints on html so the fixed sky below stays visible. */
+  html { background: var(--bg); color-scheme: dark; }
+
   body {
-    background: var(--bg);
+    background: transparent;
     color: var(--text);
     font-family: var(--font-body);
     font-size: 16px;
@@ -44,12 +47,40 @@
     min-height: 100vh;
   }
 
-  /* Hero: full-bleed satellite constellation, text on the left */
+  /* One sky behind the whole document. The extra height is the parallax travel. */
+  #sky-bg {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: calc(100vh + 240px);
+    z-index: 0;
+    display: block;
+    pointer-events: none;
+    will-change: transform;
+  }
+
+  /* A single, unchanging light over the page: the copy reads against it from
+     the first line to the footer, so no band ever marks where a section ends. */
+  #scrim {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(101deg,
+      rgba(11, 14, 20, 0.88) 0%,
+      rgba(11, 14, 20, 0.72) 26%,
+      rgba(11, 14, 20, 0.34) 48%,
+      rgba(11, 14, 20, 0.06) 68%,
+      rgba(11, 14, 20, 0) 100%);
+  }
+
+  /* Hero: the orrery, drawn in its own box over the sky. */
   .hero {
     position: relative;
+    z-index: 1;
     height: clamp(520px, 68vh, 680px);
     overflow: hidden;
-    border-bottom: 1px solid var(--border);
   }
 
   .hero canvas {
@@ -78,7 +109,7 @@
     font-size: 0.72rem;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--muted);
+    color: var(--faint);
   }
 
   h1 {
@@ -110,119 +141,151 @@
     font-size: 0.8rem;
     font-weight: 500;
     color: var(--muted);
-    background: rgba(11, 14, 20, 0.6);
+    background: rgba(11, 14, 20, 0.34);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: 1px solid var(--border);
     border-radius: 999px;
     padding: 4px 14px;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, border-color 0.2s ease;
   }
 
-  .badge:hover {
-    border-color: var(--accent);
-    color: var(--text);
-  }
+  .badge:hover { border-color: var(--accent); color: var(--text); }
 
   .badge.open {
     color: var(--green);
-    border-color: rgba(63, 185, 80, 0.4);
+    border-color: rgba(63, 185, 80, 0.42);
     background: var(--green-glow);
     font-weight: 600;
   }
 
+  /* Body copy rides above the scrim, on the same sky as the hero. */
   .wrap {
+    position: relative;
+    z-index: 3;
     max-width: 968px;
     margin: 0 auto;
-    padding: 16px 44px 48px;
+    padding: 4px 44px 56px;
   }
 
-  /* Section Titles */
   h2 {
     font-family: var(--font-heading);
     font-size: 1.35rem;
     font-weight: 600;
-    margin: 40px 0 20px;
+    letter-spacing: -0.2px;
+    margin: 52px 0 22px;
     display: flex;
-    align-items: center;
+    align-items: baseline;
+    flex-wrap: wrap;
     gap: 12px;
+    text-shadow: 0 1px 16px rgba(11, 14, 20, 0.9);
   }
 
   h2 small {
-    color: var(--muted);
+    color: var(--faint);
     font-family: var(--font-body);
     font-weight: 400;
     font-size: 0.9rem;
   }
 
-  /* Grid & Cards */
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    /* auto-fill, not auto-fit: a row of two keeps the same card width as a
+       row of three, so the two sections read as one grid. */
+    grid-template-columns: repeat(auto-fill, minmax(272px, 1fr));
     gap: 20px;
   }
 
+  /* Frosted glass: the sky stays readable through every card. */
   .card {
-    background: var(--panel);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    position: relative;
+    background: rgba(13, 17, 25, 0.40);
+    backdrop-filter: blur(18px) saturate(135%);
+    -webkit-backdrop-filter: blur(18px) saturate(135%);
     border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 24px;
+    border-radius: 16px;
+    padding: 26px 24px 22px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     gap: 16px;
-    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  }
+
+  /* A thin lit edge along the top, so the glass reads as glass. */
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.22), transparent);
   }
 
   .card:hover {
     transform: translateY(-3px);
+    background: rgba(15, 20, 29, 0.52);
     border-color: var(--border-accent);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4), 0 0 16px var(--accent-glow);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.45), 0 0 20px var(--accent-glow);
   }
 
   .card h3 {
     font-family: var(--font-heading);
-    font-size: 1.15rem;
+    font-size: 1.22rem;
     font-weight: 600;
+    letter-spacing: -0.2px;
+    line-height: 1.25;
   }
 
   .card h3 a {
-    color: var(--accent);
+    color: var(--text);
     text-decoration: none;
     transition: color 0.15s;
   }
 
-  .card h3 a:hover {
-    color: #79c0ff;
-    text-decoration: underline;
+  .card h3 a:hover { color: var(--accent); }
+
+  .slug {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--faint);
+    margin-top: 5px;
+    letter-spacing: 0.01em;
   }
 
-  .card p {
-    font-size: 0.92rem;
+  .desc {
+    font-size: 0.93rem;
     color: var(--muted);
     flex-grow: 1;
   }
 
-  .stack {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    color: var(--muted);
-    background: rgba(0, 0, 0, 0.25);
-    padding: 8px 12px;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+  .tech {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
   }
 
-  .stack b {
-    color: var(--text);
-    font-weight: 600;
+  .tech li {
+    font-family: var(--font-mono);
+    font-size: 0.71rem;
+    color: var(--muted);
+    background: rgba(255, 255, 255, 0.045);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 6px;
+    padding: 3px 9px;
+  }
+
+  .note {
+    font-size: 0.83rem;
+    color: var(--faint);
   }
 
   .links {
     display: flex;
-    gap: 14px;
-    font-size: 0.88rem;
+    gap: 18px;
+    font-size: 0.87rem;
     font-weight: 500;
+    padding-top: 4px;
   }
 
   .links a {
@@ -230,130 +293,146 @@
     text-decoration: none;
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+    gap: 5px;
     transition: color 0.15s;
   }
 
-  .links a:hover {
-    color: #79c0ff;
-    text-decoration: underline;
-  }
+  .links a:hover { color: #85c2ff; text-decoration: underline; }
 
-  /* Footer */
   footer {
-    margin-top: 60px;
-    padding-top: 28px;
-    border-top: 1px solid var(--border);
-    color: var(--muted);
+    margin-top: 68px;
+    color: var(--faint);
     font-size: 0.92rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
     gap: 16px;
+    text-shadow: 0 1px 16px rgba(11, 14, 20, 0.9);
   }
 
-  footer a {
-    color: var(--accent);
-    text-decoration: none;
-  }
-
-  footer a:hover {
-    text-decoration: underline;
-  }
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
 
   @media (max-width: 640px) {
+    #scrim {
+      background: linear-gradient(180deg,
+        rgba(11, 14, 20, 0.12) 0%,
+        rgba(11, 14, 20, 0.5) 42%,
+        rgba(11, 14, 20, 0.8) 100%);
+    }
     .hero { height: clamp(520px, 78vh, 640px); }
-    .hero-inner { padding: 0 24px; justify-content: flex-end; padding-bottom: 40px; }
-    .wrap { padding: 8px 24px 40px; }
+    .hero-inner { padding: 0 24px 40px; justify-content: flex-end; }
+    .wrap { padding: 4px 24px 44px; }
     h1 { font-size: 2.4rem; }
     .tagline { font-size: 1rem; }
+    h2 { margin: 44px 0 20px; }
     footer { flex-direction: column; align-items: flex-start; }
   }
 </style>
 </head>
 <body>
 
-  <section class="hero">
-    <canvas id="sky" aria-hidden="true"></canvas>
-    <div class="hero-inner">
-      <div class="eyebrow">Data &amp; Supply Chain Analyst · Ravenna, Italy</div>
-      <h1><span>Nicola</span> · nqwrc</h1>
-      <p class="tagline">
-        I translate warehouse operations, transport performance, and industrial QA into clean datasets, automated SQL pipelines, and interactive Streamlit dashboards.
-      </p>
-      <div class="badges">
-        <span class="badge open">● Open to Remote / Hybrid Roles</span>
-        <span class="badge">Python</span>
-        <span class="badge">pandas</span>
-        <span class="badge">SQL / SQLite</span>
-        <span class="badge">Streamlit</span>
-        <span class="badge">TypeScript</span>
-        <span class="badge">three.js</span>
-      </div>
+<canvas id="sky-bg" aria-hidden="true"></canvas>
+<div id="scrim" aria-hidden="true"></div>
+
+<section class="hero">
+  <canvas id="sky" aria-hidden="true"></canvas>
+  <div class="hero-inner">
+    <div class="eyebrow">Data &amp; Supply Chain Analyst · Ravenna, Italy</div>
+    <h1><span>Nicola</span> · nqwrc</h1>
+    <p class="tagline">
+      I translate warehouse operations, transport performance, and industrial QA into clean datasets, automated SQL pipelines, and interactive Streamlit dashboards.
+    </p>
+    <div class="badges">
+      <span class="badge open">● Open to Remote / Hybrid Roles</span>
+      <span class="badge">Python</span>
+      <span class="badge">pandas</span>
+      <span class="badge">SQL / SQLite</span>
+      <span class="badge">Streamlit</span>
+      <span class="badge">TypeScript</span>
+      <span class="badge">three.js</span>
     </div>
-  </section>
+  </div>
+</section>
 
 <div class="wrap">
 
-  <h2>Data &amp; Supply Chain Projects <small>Real-world logistics models &amp; pipelines</small></h2>
+  <h2>Data &amp; Supply Chain Projects <small>Real-world logistics models and pipelines</small></h2>
   <div class="grid">
-    <div class="card">
+
+    <article class="card">
       <div>
-        <h3><a href="https://github.com/nqwrc/warehouse-kpi-dashboard">warehouse-kpi-dashboard</a></h3>
-        <p>Picking accuracy KPI tracking against a 1% error threshold, operator Pareto analysis, inventory turnover, and 30-day cold-storage expiry risk alerting.</p>
+        <h3><a href="https://github.com/nqwrc/warehouse-kpi-dashboard">Warehouse KPI Dashboard</a></h3>
+        <div class="slug">nqwrc/warehouse-kpi-dashboard</div>
       </div>
-      <div class="stack"><b>Python · SQLite · Streamlit</b> — 6 KPI queries + interactive dashboard</div>
+      <p class="desc">Picking accuracy tracked against a 1% error threshold, operator Pareto analysis, inventory turnover, and 30-day cold-storage expiry risk alerting.</p>
+      <ul class="tech"><li>Python</li><li>SQLite</li><li>Streamlit</li></ul>
+      <p class="note">Six KPI queries behind an interactive dashboard.</p>
       <div class="links">
-        <a href="https://github.com/nqwrc/warehouse-kpi-dashboard">Code on GitHub</a>
+        <a href="https://github.com/nqwrc/warehouse-kpi-dashboard">Repository</a>
       </div>
-    </div>
-    <div class="card">
+    </article>
+
+    <article class="card">
       <div>
-        <h3><a href="https://github.com/nqwrc/transport-performance-analysis">transport-performance-analysis</a></h3>
-        <p>On-time delivery performance vs agreed windows, cost-per-route vs cost-per-item analytics, and delivery discrepancy identification across B2B/B2C routes.</p>
+        <h3><a href="https://github.com/nqwrc/transport-performance-analysis">Transport Performance Analysis</a></h3>
+        <div class="slug">nqwrc/transport-performance-analysis</div>
       </div>
-      <div class="stack"><b>Python · pandas · Jupyter</b></div>
+      <p class="desc">On-time delivery measured against agreed windows, cost per route versus cost per item, and delivery discrepancies identified across B2B and B2C routes.</p>
+      <ul class="tech"><li>Python</li><li>pandas</li><li>Jupyter</li></ul>
+      <p class="note">Notebook analysis over real carrier data.</p>
       <div class="links">
-        <a href="https://github.com/nqwrc/transport-performance-analysis">Code on GitHub</a>
+        <a href="https://github.com/nqwrc/transport-performance-analysis">Repository</a>
       </div>
-    </div>
-    <div class="card">
+    </article>
+
+    <article class="card">
       <div>
-        <h3><a href="https://github.com/nqwrc/qa-reporting-pipeline">qa-reporting-pipeline</a></h3>
-        <p>Automated ingestion, validation, and weekly reporting pipeline for industrial non-destructive testing (NDT) quality-control data.</p>
+        <h3><a href="https://github.com/nqwrc/qa-reporting-pipeline">QA Reporting Pipeline</a></h3>
+        <div class="slug">nqwrc/qa-reporting-pipeline</div>
       </div>
-      <div class="stack"><b>Python · SQL · CLI</b></div>
+      <p class="desc">Automated ingestion, validation, and weekly reporting for industrial non-destructive testing quality-control data.</p>
+      <ul class="tech"><li>Python</li><li>SQL</li><li>CLI</li></ul>
+      <p class="note">Scheduled run, validated input, weekly report out.</p>
       <div class="links">
-        <a href="https://github.com/nqwrc/qa-reporting-pipeline">Code on GitHub</a>
+        <a href="https://github.com/nqwrc/qa-reporting-pipeline">Repository</a>
       </div>
-    </div>
+    </article>
+
   </div>
 
-  <h2>Software &amp; Tools</h2>
+  <h2>Software &amp; Tools <small>Things built to be used, not only read</small></h2>
   <div class="grid">
-    <div class="card">
+
+    <article class="card">
       <div>
-        <h3><a href="https://github.com/nqwrc/glowbind">glowbind</a></h3>
-        <p>Interactive keyboard shortcut trainer featuring natural-language search and real-time OpenRGB hardware illumination (~250 shortcuts across 7 apps).</p>
+        <h3><a href="https://github.com/nqwrc/glowbind">Glowbind</a></h3>
+        <div class="slug">nqwrc/glowbind</div>
       </div>
-      <div class="stack"><b>TypeScript · OpenRGB</b></div>
+      <p class="desc">Keyboard shortcut trainer with natural-language search and real-time OpenRGB hardware illumination, covering roughly 250 shortcuts across seven applications.</p>
+      <ul class="tech"><li>TypeScript</li><li>OpenRGB</li></ul>
+      <p class="note">Type what you want to do, the keys light up.</p>
       <div class="links">
-        <a href="https://github.com/nqwrc/glowbind">Code</a>
-        <a href="https://nqwrc.github.io/glowbind/">Live Demo ↗</a>
+        <a href="https://github.com/nqwrc/glowbind">Repository</a>
+        <a href="https://nqwrc.github.io/glowbind/">Live demo ↗</a>
       </div>
-    </div>
-    <div class="card">
+    </article>
+
+    <article class="card">
       <div>
-        <h3><a href="https://github.com/nqwrc/3d-anatomy">3d-anatomy</a></h3>
-        <p>Interactive 3D web atlas of human anatomy — rendering 2,800+ anatomical structures across seven body systems directly in the browser (Z-Anatomy dataset).</p>
+        <h3><a href="https://github.com/nqwrc/3d-anatomy">3D Anatomy</a></h3>
+        <div class="slug">nqwrc/3d-anatomy</div>
       </div>
-      <div class="stack"><b>three.js · WebGL</b></div>
+      <p class="desc">Interactive 3D web atlas of human anatomy, rendering more than 2,800 structures across seven body systems directly in the browser, from the Z-Anatomy dataset.</p>
+      <ul class="tech"><li>three.js</li><li>WebGL</li></ul>
+      <p class="note">No plugin, no install, runs on the GPU you already have.</p>
       <div class="links">
-        <a href="https://github.com/nqwrc/3d-anatomy">Code</a>
-        <a href="https://nqwrc.github.io/3d-anatomy/">Live Demo ↗</a>
+        <a href="https://github.com/nqwrc/3d-anatomy">Repository</a>
+        <a href="https://nqwrc.github.io/3d-anatomy/">Live demo ↗</a>
       </div>
-    </div>
+    </article>
+
   </div>
 
   <footer>
@@ -370,216 +449,325 @@
 
 <script>
 (function () {
-  var canvas = document.getElementById('sky');
-  if (!canvas || !canvas.getContext) return;
-  var ctx = canvas.getContext('2d');
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var bgCanvas = document.getElementById('sky-bg');
+  var heroCanvas = document.getElementById('sky');
+  if (!bgCanvas || !heroCanvas || !bgCanvas.getContext) return;
+  var bctx = bgCanvas.getContext('2d'), hctx = heroCanvas.getContext('2d');
 
-  var ACC = '88,166,255';
-  var INK = '240,246,252';
-  var W = 0, H = 0, R = 0, cx = 0, cy = 0, linkRange = 0;
-  var shells = [], sats = [], stations = [], stars = [];
-  var still = document.createElement('canvas'), sctx = still.getContext('2d');
-  var seed = 7;
-  function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+  var ACC = '88,166,255', INK = '240,246,252', WARM = '255,226,196', COOL = '186,206,255', BG = '11,14,20';
+  var TAU = Math.PI * 2, EXTRA = 240;
 
-  // Angular window of a circle of radius r that lies inside the canvas.
-  function windowFor(r, xmin) {
-    var lo = null, hi = null, m = 24;
-    for (var a = -Math.PI; a <= 0; a += 0.002) {
-      var x = cx + r * Math.cos(a), y = cy + r * Math.sin(a);
-      if (x >= xmin && x <= W + m && y >= -m && y <= H + m) {
-        if (lo === null) lo = a;
-        hi = a;
-      }
+  /* ---------- toolkit ---------- */
+  function RNG(seed) { var s = (seed >>> 0) || 1; return function () { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+  function gauss(r) { return Math.sqrt(-2 * Math.log(1 - r())) * Math.cos(TAU * r()); }
+  function rgba(c, a) { return 'rgba(' + c + ',' + a + ')'; }
+  function pick(r, arr) { return arr[Math.floor(r() * arr.length)]; }
+  function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
+
+  // Brightness tiers roughly follow a real magnitude distribution: most stars
+  // faint, a few bright enough to earn a halo.
+  function mkStar(r, x, y) {
+    var t = r(), u = r(), s;
+    if (t < 0.70) s = { rad: 0.5 + r() * 0.4, a: 0.22 + r() * 0.2, halo: 0 };
+    else if (t < 0.90) s = { rad: 0.9 + r() * 0.5, a: 0.5 + r() * 0.2, halo: 0 };
+    else if (t < 0.97) s = { rad: 1.4 + r() * 0.6, a: 0.85, halo: 1 };
+    else s = { rad: 2.0 + r() * 0.8, a: 1, halo: 2 };
+    s.c = u < 0.74 ? INK : u < 0.87 ? WARM : u < 0.97 ? COOL : ACC;
+    s.x = x; s.y = y; s.ph = r() * TAU; s.tw = 0.0006 + r() * 0.0014;
+    return s;
+  }
+  function drawStar(c, s, t) {
+    var tw = s.halo ? 0.75 + 0.25 * Math.sin(t * s.tw + s.ph) : 1;
+    var a = s.a * tw;
+    if (a <= 0.005) return;
+    if (s.halo) {
+      c.fillStyle = rgba(s.c, a * (s.halo === 2 ? 0.14 : 0.08));
+      c.beginPath(); c.arc(s.x, s.y, s.rad * (s.halo === 2 ? 5 : 3.5), 0, TAU); c.fill();
     }
-    if (lo === null) { lo = -Math.PI * 0.75; hi = -Math.PI * 0.5; }
-    return [lo, hi];
+    c.fillStyle = rgba(s.c, a);
+    c.beginPath(); c.arc(s.x, s.y, s.rad, 0, TAU); c.fill();
+  }
+  function spikes(c, x, y, len, a, col) {
+    for (var k = 0; k < 2; k++) {
+      var g = c.createLinearGradient(x - len, y, x + len, y);
+      g.addColorStop(0, rgba(col, 0)); g.addColorStop(0.5, rgba(col, a)); g.addColorStop(1, rgba(col, 0));
+      c.save(); c.translate(x, y); c.rotate(k * Math.PI / 2); c.translate(-x, -y);
+      c.strokeStyle = g; c.lineWidth = 0.8;
+      c.beginPath(); c.moveTo(x - len, y); c.lineTo(x + len, y); c.stroke();
+      c.restore();
+    }
+  }
+  // Newton-Raphson on Kepler's equation: this is what makes a planet speed up
+  // at perihelion instead of sliding round at a constant rate.
+  function kepler(M, e) { var E = M; for (var i = 0; i < 5; i++) E -= (E - e * Math.sin(E) - M) / (1 - e * Math.cos(E)); return E; }
+
+  var meteor = null;
+  function meteors(c, r, t, dt, W, H, rate) {
+    if (!meteor && r() < dt * rate) {
+      var a = 0.55 + r() * 0.5;
+      meteor = { x: r() * W, y: r() * H * 0.6, vx: Math.cos(a) * 0.9, vy: Math.sin(a) * 0.9, life: 0, max: 520 + r() * 300 };
+    }
+    if (!meteor) return;
+    meteor.life += dt;
+    var k = meteor.life / meteor.max; if (k >= 1) { meteor = null; return; }
+    var a2 = Math.sin(k * Math.PI) * 0.8, L = 70;
+    var hx = meteor.x + meteor.vx * meteor.life, hy = meteor.y + meteor.vy * meteor.life;
+    var g = c.createLinearGradient(hx - meteor.vx * L, hy - meteor.vy * L, hx, hy);
+    g.addColorStop(0, rgba(INK, 0)); g.addColorStop(1, rgba(INK, a2));
+    c.strokeStyle = g; c.lineWidth = 1;
+    c.beginPath(); c.moveTo(hx - meteor.vx * L, hy - meteor.vy * L); c.lineTo(hx, hy); c.stroke();
   }
 
-  function setup() {
-    var rect = canvas.getBoundingClientRect();
-    W = rect.width; H = rect.height;
-    var dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  /* ---------- background: deep field ---------- */
+  var deep = {
+    setup: function (S) {
+      var r = S.r, W = S.W, H = S.H, m = S.mobile;
+      this.layers = [];
+      var counts = m ? [60, 40, 18] : [140, 80, 30];
+      for (var L = 0; L < 3; L++) {
+        var arr = [];
+        for (var i = 0; i < counts[L]; i++) {
+          var s = mkStar(r, r() * W, r() * H);
+          s.a *= [0.45, 0.75, 1][L]; s.rad *= [0.7, 1, 1.3][L];
+          arr.push(s);
+        }
+        this.layers.push({ s: arr, v: [0.0022, 0.0045, 0.009][L] });
+      }
+      // The band, its nebulae and its dust lanes never move: drawn once here,
+      // then blitted every frame. That is what keeps this cheap.
+      var still = document.createElement('canvas');
+      still.width = S.dw; still.height = S.dh;
+      var sc = still.getContext('2d');
+      sc.setTransform(S.dpr, 0, 0, S.dpr, 0, 0);
+      var ang = (m ? -1.05 : -0.42) + (r() - 0.5) * 0.3, bw = (m ? W : H) * 0.32;
+      sc.save(); sc.translate(W * (m ? 0.55 : 0.6), H * 0.5); sc.rotate(ang);
+      var len = Math.hypot(W, H) + 200;
+      for (var n = 0; n < (m ? 700 : 1600); n++) {
+        var x = (r() - 0.5) * len;
+        var y = gauss(r) * bw * 0.35 * (0.7 + 0.6 * Math.sin(x * 0.004 + 1.3));
+        var tt = r();
+        sc.fillStyle = rgba(tt < 0.8 ? INK : tt < 0.93 ? WARM : COOL, 0.08 + r() * 0.3);
+        sc.beginPath(); sc.arc(x, y, 0.4 + r() * 0.6, 0, TAU); sc.fill();
+      }
+      sc.globalCompositeOperation = 'lighter';
+      for (var nb = 0; nb < (m ? 4 : 7); nb++) {
+        var gx = (r() - 0.5) * len * 0.8, gy = gauss(r) * bw * 0.35, gr = 120 + r() * 260;
+        var col = r() < 0.55 ? ACC : r() < 0.8 ? WARM : '150,120,220';
+        var g = sc.createRadialGradient(gx, gy, 0, gx, gy, gr);
+        g.addColorStop(0, rgba(col, 0.085)); g.addColorStop(0.5, rgba(col, 0.03)); g.addColorStop(1, rgba(col, 0));
+        sc.fillStyle = g; sc.beginPath(); sc.arc(gx, gy, gr, 0, TAU); sc.fill();
+      }
+      sc.globalCompositeOperation = 'source-over';
+      for (var d = 0; d < 3; d++) {
+        var dx = (r() - 0.5) * len * 0.7, dy = gauss(r) * bw * 0.2;
+        var dg = sc.createRadialGradient(dx, dy, 0, dx, dy, 90 + r() * 120);
+        dg.addColorStop(0, rgba(BG, 0.85)); dg.addColorStop(1, rgba(BG, 0));
+        sc.save(); sc.scale(1, 0.35); sc.fillStyle = dg;
+        sc.beginPath(); sc.arc(dx, dy / 0.35, 210, 0, TAU); sc.fill(); sc.restore();
+      }
+      sc.restore();
+      this.still = still;
+      this.bright = [];
+      for (var b = 0; b < (m ? 4 : 7); b++) {
+        this.bright.push({ x: r() * W, y: r() * H, len: 12 + r() * 30, ph: r() * TAU, c: r() < 0.6 ? INK : r() < 0.85 ? COOL : WARM });
+      }
+    },
+    draw: function (S, t, dt) {
+      var c = S.ctx, W = S.W, H = S.H, i;
+      c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.drawImage(this.still, 0, 0); c.restore();
+      for (var L = 0; L < 3; L++) {
+        var lay = this.layers[L];
+        for (i = 0; i < lay.s.length; i++) {
+          var s = lay.s[i];
+          s.x -= lay.v * dt; if (s.x < -4) s.x += W + 8;
+          drawStar(c, s, t);
+        }
+      }
+      for (i = 0; i < this.bright.length; i++) {
+        var st = this.bright[i], tw = 0.7 + 0.3 * Math.sin(t * 0.0011 + st.ph);
+        st.x -= 0.009 * dt; if (st.x < -50) { st.x = W + 50; st.y = S.r() * H; }
+        spikes(c, st.x, st.y, st.len * tw, 0.55 * tw, st.c);
+        c.fillStyle = rgba(st.c, 0.12 * tw); c.beginPath(); c.arc(st.x, st.y, 9, 0, TAU); c.fill();
+        c.fillStyle = rgba(st.c, tw); c.beginPath(); c.arc(st.x, st.y, 1.8, 0, TAU); c.fill();
+      }
+      meteors(c, S.r, t, dt, W, H, 0.0002);
+    }
+  };
 
-    seed = 7;
-    var mobile = W < 640;
-    R = W * (mobile ? 1.6 : 1.15);
-    cx = W * (mobile ? 1.15 : 0.98);
-    cy = H * (mobile ? 0.34 : 0.44) + R;
-    linkRange = Math.max(W * 0.15, 130);
-
-    var step = mobile ? W * 0.17 : W * 0.095;
-    var radii = [R + step, R + step * 2, R + step * 3];
-    var counts = mobile ? [5, 6, 6] : [8, 9, 10];
-    shells = []; sats = [];
-    for (var i = 0; i < radii.length; i++) {
-      var win = windowFor(radii[i], mobile ? -24 : W * 0.34);
-      shells.push({ r: radii[i], lo: win[0], hi: win[1] });
-      var span = win[1] - win[0];
-      for (var k = 0; k < counts[i]; k++) {
-        sats.push({
-          shell: i,
-          a: win[0] + span * ((k + 0.5) / counts[i]) + (rnd() - 0.5) * span / counts[i] * 0.8,
-          w: 0.000028 * (radii[0] / radii[i]) * (i % 2 === 0 ? 1 : 1.35),
-          active: (k % 4 === 1)
+  /* ---------- hero: orrery ---------- */
+  var orrery = {
+    setup: function (S) {
+      var r = S.r, W = S.W, H = S.H, m = S.mobile;
+      this.sx = m ? W * 0.5 : W * 0.71; this.sy = m ? H * 0.3 : H * 0.5;
+      this.tilt = 0.36 + r() * 0.14; this.view = (r() - 0.5) * 0.5;
+      var base = m ? W * 0.16 : W * 0.075, span = m ? W * 0.62 : W * 0.46;
+      var n = m ? 5 : 7, cols = [INK, WARM, COOL, INK, INK, WARM, COOL];
+      this.pl = [];
+      for (var i = 0; i < n; i++) {
+        var a = base + span * Math.pow(i / (n - 1), 1.25) * (0.94 + r() * 0.12);
+        var e = 0.02 + r() * 0.2;
+        this.pl.push({
+          a: a, b: a * Math.sqrt(1 - e * e), e: e, w: r() * TAU, M: r() * TAU,
+          n: 0.00052 * Math.pow(base / a, 1.5),   // Kepler's third law
+          rad: 1.6 + r() * 3.4, c: cols[i % cols.length], ring: false, moon: false
         });
       }
-    }
-
-    var lw = windowFor(R, mobile ? -24 : W * 0.34);
-    stations = [];
-    var fr = mobile ? [0.62, 0.86] : [0.3, 0.58, 0.82];
-    for (var s = 0; s < fr.length; s++) stations.push({ a: lw[0] + (lw[1] - lw[0]) * fr[s] });
-
-    stars = [];
-    var n = mobile ? 28 : 56;
-    for (var j = 0; j < n; j++) stars.push({ x: rnd() * W, y: rnd() * H, o: 0.08 + rnd() * 0.18 });
-
-    still.width = canvas.width; still.height = canvas.height;
-    sctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    drawStill(sctx);
-  }
-
-  function drawStill(c) {
-    c.clearRect(0, 0, W, H);
-    for (var i = 0; i < stars.length; i++) {
-      c.fillStyle = 'rgba(' + INK + ',' + stars[i].o + ')';
-      c.fillRect(stars[i].x, stars[i].y, 1, 1);
-    }
-    var g = c.createRadialGradient(cx, cy, R - 160, cx, cy, R);
-    g.addColorStop(0, 'rgba(' + ACC + ',0)');
-    g.addColorStop(1, 'rgba(' + ACC + ',0.13)');
-    c.fillStyle = g;
-    c.beginPath(); c.arc(cx, cy, R, 0, Math.PI * 2); c.fill();
-    c.save();
-    c.shadowColor = 'rgba(' + ACC + ',0.7)';
-    c.shadowBlur = 28;
-    c.strokeStyle = 'rgba(' + INK + ',0.55)';
-    c.lineWidth = 1.2;
-    c.beginPath(); c.arc(cx, cy, R, -Math.PI, 0); c.stroke();
-    c.restore();
-    c.lineWidth = 1;
-    for (var s = 0; s < shells.length; s++) {
-      c.strokeStyle = 'rgba(' + INK + ',0.07)';
-      c.beginPath(); c.arc(cx, cy, shells[s].r, shells[s].lo - 0.2, shells[s].hi + 0.2); c.stroke();
-    }
-  }
-
-  function pos(r, a) { return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; }
-
-  function edgeFade(sat) {
-    var sh = shells[sat.shell], e = 0.05;
-    var d = Math.min(sat.a - sh.lo, sh.hi - sat.a);
-    return d <= 0 ? 0 : d >= e ? 1 : d / e;
-  }
-
-  function draw(t) {
-    ctx.clearRect(0, 0, W, H);
-    ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.drawImage(still, 0, 0); ctx.restore();
-    ctx.lineWidth = 1;
-
-    // satellite positions
-    var P = [];
-    for (var k = 0; k < sats.length; k++) {
-      var sat = sats[k];
-      var p = pos(shells[sat.shell].r, sat.a);
-      P.push({ x: p[0], y: p[1], f: edgeFade(sat), active: sat.active });
-    }
-
-    // link mesh: nearby satellites talk to each other
-    for (var a = 0; a < P.length; a++) {
-      for (var b = a + 1; b < P.length; b++) {
-        var dx = P[a].x - P[b].x, dy = P[a].y - P[b].y;
-        var d = Math.sqrt(dx * dx + dy * dy);
-        if (d > linkRange) continue;
-        var al = 0.42 * (1 - d / linkRange) * P[a].f * P[b].f;
-        if (al < 0.01) continue;
-        ctx.strokeStyle = 'rgba(' + ACC + ',' + al + ')';
-        ctx.beginPath(); ctx.moveTo(P[a].x, P[a].y); ctx.lineTo(P[b].x, P[b].y); ctx.stroke();
+      var big = this.pl.slice(2).sort(function (p, q) { return q.rad - p.rad; })[0];
+      big.rad = Math.max(big.rad, 5.2); big.ring = true;
+      pick(r, this.pl.slice(0, 3)).moon = true;
+      var k = Math.min(n - 2, 3);
+      this.belt = [];
+      var ba = (this.pl[k].a + this.pl[k + 1].a) / 2, bw = (this.pl[k + 1].a - this.pl[k].a) * 0.42;
+      for (var j = 0; j < (m ? 90 : 170); j++) {
+        var aa = ba + gauss(r) * bw * 0.5;
+        this.belt.push({ a: aa, M: r() * TAU, n: 0.00052 * Math.pow(base / aa, 1.5), o: 0.12 + r() * 0.3 });
       }
-    }
-
-    // ground stations + uplinks with a travelling packet
-    for (var q = 0; q < stations.length; q++) {
-      var gp = pos(R, stations[q].a);
-      var best = -1, bd = 1e9;
-      for (var m = 0; m < P.length; m++) {
-        var ex = P[m].x - gp[0], ey = P[m].y - gp[1];
-        var ed = Math.sqrt(ex * ex + ey * ey) / Math.max(P[m].f, 0.05);
-        if (ed < bd) { bd = ed; best = m; }
+      var ca = span * (0.6 + r() * 0.3), ce = 0.8 + r() * 0.12;
+      this.comet = { a: ca, b: ca * Math.sqrt(1 - ce * ce), e: ce, w: r() * TAU, M: -0.35, n: 0.00052 * Math.pow(base / ca, 1.5) * 1.6 };
+      // No star backdrop here: the deep field behind already supplies one.
+    },
+    P: function (o, M) {
+      var E = kepler(M, o.e), x = o.a * (Math.cos(E) - o.e), y = o.b * Math.sin(E);
+      var cw = Math.cos(o.w), sw = Math.sin(o.w);
+      var px = x * cw - y * sw, py = (x * sw + y * cw) * this.tilt;
+      var cv = Math.cos(this.view), sv = Math.sin(this.view);
+      return [this.sx + px * cv - py * sv, this.sy + px * sv + py * cv];
+    },
+    draw: function (S, t, dt) {
+      var c = S.ctx, i, p, k;
+      c.lineWidth = 0.7;
+      for (i = 0; i < this.pl.length; i++) {
+        p = this.pl[i];
+        c.strokeStyle = rgba(INK, 0.11 + 0.06 * (1 - i / this.pl.length));
+        c.beginPath();
+        for (k = 0; k <= 96; k++) { var q = this.P(p, k / 96 * TAU); if (k) c.lineTo(q[0], q[1]); else c.moveTo(q[0], q[1]); }
+        c.closePath(); c.stroke();
       }
-      if (best >= 0) {
-        var tp = P[best];
-        ctx.strokeStyle = 'rgba(' + ACC + ',' + (0.6 * tp.f) + ')';
-        ctx.beginPath(); ctx.moveTo(gp[0], gp[1]); ctx.lineTo(tp.x, tp.y); ctx.stroke();
-        var u = ((t / 2600) + q * 0.37) % 1;
-        var px = gp[0] + (tp.x - gp[0]) * u, py = gp[1] + (tp.y - gp[1]) * u;
-        ctx.fillStyle = 'rgba(' + INK + ',' + (0.95 * tp.f) + ')';
-        ctx.beginPath(); ctx.arc(px, py, 1.6, 0, Math.PI * 2); ctx.fill();
+      for (i = 0; i < this.belt.length; i++) {
+        var b = this.belt[i]; b.M += b.n * dt;
+        var bp = this.P({ a: b.a, b: b.a, e: 0, w: 0 }, b.M);
+        c.fillStyle = rgba(INK, b.o); c.fillRect(bp[0], bp[1], 0.9, 0.9);
       }
-      ctx.strokeStyle = 'rgba(' + ACC + ',0.9)';
-      ctx.beginPath(); ctx.arc(gp[0], gp[1], 4, 0, Math.PI * 2); ctx.stroke();
-      ctx.fillStyle = 'rgba(' + ACC + ',0.9)';
-      ctx.beginPath(); ctx.arc(gp[0], gp[1], 1.4, 0, Math.PI * 2); ctx.fill();
-    }
-
-    // satellites
-    for (var n = 0; n < P.length; n++) {
-      var sp = P[n];
-      if (sp.f <= 0) continue;
-      if (sp.active) {
-        var ph = ((t / 3200) + n * 0.21) % 1;
-        ctx.strokeStyle = 'rgba(' + ACC + ',' + (0.45 * (1 - ph) * sp.f) + ')';
-        ctx.beginPath(); ctx.arc(sp.x, sp.y, 6 + 14 * ph, 0, Math.PI * 2); ctx.stroke();
-        ctx.strokeStyle = 'rgba(' + ACC + ',' + (0.5 * sp.f) + ')';
-        ctx.beginPath(); ctx.arc(sp.x, sp.y, 7, 0, Math.PI * 2); ctx.stroke();
-        ctx.fillStyle = 'rgba(' + ACC + ',' + sp.f + ')';
-        ctx.beginPath(); ctx.arc(sp.x, sp.y, 2.6, 0, Math.PI * 2); ctx.fill();
-      } else {
-        ctx.fillStyle = 'rgba(' + INK + ',' + (0.9 * sp.f) + ')';
-        ctx.beginPath(); ctx.arc(sp.x, sp.y, 2, 0, Math.PI * 2); ctx.fill();
+      var cm = this.comet; cm.M += cm.n * dt;
+      var cp = this.P(cm, cm.M), dxs = cp[0] - this.sx, dys = cp[1] - this.sy, dd = Math.hypot(dxs, dys) + 1;
+      var tl = Math.min(220, 9000 / dd), ta = Math.min(0.7, 60 / dd);
+      var tg = c.createLinearGradient(cp[0], cp[1], cp[0] + dxs / dd * tl, cp[1] + dys / dd * tl);
+      tg.addColorStop(0, rgba(COOL, ta)); tg.addColorStop(1, rgba(COOL, 0));
+      c.strokeStyle = tg; c.lineWidth = 1.6;
+      c.beginPath(); c.moveTo(cp[0], cp[1]); c.lineTo(cp[0] + dxs / dd * tl, cp[1] + dys / dd * tl); c.stroke();
+      c.fillStyle = rgba(INK, 0.95); c.beginPath(); c.arc(cp[0], cp[1], 1.6, 0, TAU); c.fill();
+      for (i = 0; i < this.pl.length; i++) {
+        p = this.pl[i]; p.M += p.n * dt;
+        var pos = this.P(p, p.M), prev = pos;
+        for (k = 1; k <= 22; k++) {
+          var tp = this.P(p, p.M - k * 0.028);
+          c.strokeStyle = rgba(p.c, 0.5 * (1 - k / 22)); c.lineWidth = 1;
+          c.beginPath(); c.moveTo(prev[0], prev[1]); c.lineTo(tp[0], tp[1]); c.stroke();
+          prev = tp;
+        }
+        if (p.ring) {
+          c.save(); c.translate(pos[0], pos[1]); c.rotate(this.view + 0.35); c.scale(1, 0.32);
+          c.strokeStyle = rgba(p.c, 0.55); c.lineWidth = 1.2; c.beginPath(); c.arc(0, 0, p.rad * 2.1, 0, TAU); c.stroke();
+          c.strokeStyle = rgba(p.c, 0.25); c.lineWidth = 0.8; c.beginPath(); c.arc(0, 0, p.rad * 2.7, 0, TAU); c.stroke();
+          c.restore();
+        }
+        c.fillStyle = rgba(p.c, 0.1); c.beginPath(); c.arc(pos[0], pos[1], p.rad * 3, 0, TAU); c.fill();
+        c.fillStyle = rgba(p.c, 1); c.beginPath(); c.arc(pos[0], pos[1], p.rad, 0, TAU); c.fill();
+        c.fillStyle = rgba(BG, 0.35); c.beginPath(); c.arc(pos[0] + p.rad * 0.35, pos[1] + p.rad * 0.25, p.rad * 0.9, 0, TAU); c.fill();
+        if (p.moon) {
+          var ma = t * 0.0021 + i, mr = p.rad + 7;
+          c.fillStyle = rgba(INK, 0.9);
+          c.beginPath(); c.arc(pos[0] + Math.cos(ma) * mr, pos[1] + Math.sin(ma) * mr * 0.5, 1, 0, TAU); c.fill();
+        }
       }
+      var g = c.createRadialGradient(this.sx, this.sy, 0, this.sx, this.sy, 110);
+      g.addColorStop(0, rgba(WARM, 0.85)); g.addColorStop(0.10, rgba(WARM, 0.3));
+      g.addColorStop(0.4, rgba(WARM, 0.07)); g.addColorStop(1, rgba(WARM, 0));
+      c.fillStyle = g; c.beginPath(); c.arc(this.sx, this.sy, 110, 0, TAU); c.fill();
+      c.fillStyle = rgba('255,246,230', 1); c.beginPath(); c.arc(this.sx, this.sy, 6.5, 0, TAU); c.fill();
     }
+  };
 
-    // keep the text side quiet
-    var fade = ctx.createLinearGradient(0, 0, W * 0.62, 0);
-    fade.addColorStop(0, 'rgba(11,14,20,0.92)');
-    fade.addColorStop(0.55, 'rgba(11,14,20,0.55)');
-    fade.addColorStop(1, 'rgba(11,14,20,0)');
-    ctx.fillStyle = fade;
-    ctx.fillRect(0, 0, W * 0.62, H);
+  /* ---------- runtime: two canvases, one loop ---------- */
+  var SB = { ctx: bctx, W: 0, H: 0 }, SH = { ctx: hctx, W: 0, H: 0 };
+  var seed = Math.floor(Math.random() * 100000);
+  var running = false, ready = false, last = 0, lastW = 0, lastH = 0;
+
+  function measure(S, cv) {
+    var rect = cv.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+    S.W = rect.width; S.H = rect.height; S.dpr = dpr; S.mobile = S.W < 640;
+    S.dw = cv.width = Math.round(S.W * dpr); S.dh = cv.height = Math.round(S.H * dpr);
+    S.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return S.W > 0 && S.H > 0;
   }
-
-  var last = 0, running = false;
+  function setupAll() {
+    var okBg = measure(SB, bgCanvas), okHero = measure(SH, heroCanvas);
+    ready = okBg && okHero;
+    if (!ready) return;
+    SB.r = RNG(seed * 7919 + 17); meteor = null; deep.setup(SB);
+    SH.r = RNG(seed * 7919 + 101); orrery.setup(SH);
+    lastW = SB.W; lastH = SB.H;
+  }
+  function draw(t, dt) {
+    if (!ready) return;
+    bctx.clearRect(0, 0, SB.W, SB.H); deep.draw(SB, t, dt);
+    hctx.clearRect(0, 0, SH.W, SH.H); orrery.draw(SH, t, dt);
+  }
   function frame(t) {
     if (!running) return;
-    var dt = last ? Math.min(t - last, 50) : 0;
-    last = t;
-    for (var i = 0; i < sats.length; i++) {
-      var sat = sats[i], sh = shells[sat.shell];
-      sat.a += sat.w * dt;
-      if (sat.a > sh.hi) sat.a = sh.lo + (sat.a - sh.hi);
-    }
-    draw(t);
+    var dt = last ? Math.min(t - last, 50) : 0; last = t;
+    draw(t, dt);
     requestAnimationFrame(frame);
   }
-
-  function start() {
-    if (reduce) { draw(0); return; }
-    if (running) return;
-    running = true; last = 0;
-    requestAnimationFrame(frame);
-  }
+  function start() { if (running) return; running = true; last = 0; requestAnimationFrame(frame); }
   function stop() { running = false; }
 
-  setup();
-  start();
-  window.addEventListener('resize', function () { setup(); if (reduce) draw(0); });
+  // The sky drifts 240px over the length of the document, a quarter of the
+  // speed of the copy, so the page reads as one window rather than two panes.
+  var ticking = false;
+  function applyScroll() {
+    ticking = false;
+    var y = window.pageYOffset || document.documentElement.scrollTop;
+    var max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    bgCanvas.style.transform = 'translate3d(0,' + (-EXTRA * clamp(y / max, 0, 1)).toFixed(1) + 'px,0)';
+  }
+  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(applyScroll); } }
+
+  // Rebuild only on a real layout change: on mobile the URL bar collapsing
+  // resizes the box mid-scroll, and a re-seeded sky would visibly jump.
+  var rt = null;
+  function onBoxChange() {
+    clearTimeout(rt);
+    rt = setTimeout(function () {
+      var box = bgCanvas.getBoundingClientRect();
+      if (ready && Math.abs(box.width - lastW) < 1 && Math.abs(box.height - lastH) < 120) return;
+      setupAll(); applyScroll();
+    }, 160);
+  }
+  if (window.ResizeObserver) {
+    var ro = new ResizeObserver(onBoxChange);
+    ro.observe(bgCanvas); ro.observe(heroCanvas);
+  } else {
+    window.addEventListener('resize', onBoxChange);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
   document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
+
+  // A host can lay out after this script runs, leaving both canvases at 0x0.
+  var tries = 0;
+  function ensureReady() {
+    if (ready) return;
+    setupAll();
+    if (ready) { applyScroll(); return; }
+    if (tries++ < 150) setTimeout(ensureReady, 100);
+  }
+
+  setupAll();
+  applyScroll();
+  start();
+  ensureReady();
 })();
 </script>
+
 </body>
 </html>

@@ -2,7 +2,7 @@
 
 state: active
 remote: github-public
-updated: 2026-09-04
+updated: 2026-09-05
 stale-after-days: 30
 
 ## kpi
@@ -16,6 +16,12 @@ Homepage, description, five topics and the MIT license are set; one open item be
 constellation (planet limb, three orbit shells, drifting satellites with a distance-based
 link mesh, ground uplinks). One accent, no external assets, static frame under
 prefers-reduced-motion. Card and footer emoji dropped.
+2026-09-05: satellite scene replaced by two canvases sharing one loop - a Keplerian
+orrery in the hero over a deep-field sky fixed behind the whole document, drifting
+240px across the page on scroll. Section borders removed and the hero scrim turned
+into one page-wide fixed gradient, so the page reads as a single surface. Cards are
+translucent glass (blur 18px, 40% fill) with display titles, repo slug, tech chips.
+Verified locally: parallax reaches exactly -240px at the foot, no console errors.
 
 ## backlog
 - commits c31e726 and 07d37a5, already on origin/main, carry text the public-repo
