@@ -29,6 +29,8 @@ which renders for a visitor with no Streamlit login.
 what the live page serves. The card wording is the redesign's - Repository and Live demo.
 
 ## backlog
+- every page load 404s on /favicon.ico: the repo has no icon file and index.html
+  declares none. Cosmetic, but it is the only console error the live page produces
 - commits c31e726 and 07d37a5, already on origin/main, carry text the public-repo
   standard excludes. HEAD is clean; the published history is not. Removing it means
   rewriting the history of a public repo: owner's decision, not taken here
