@@ -2,7 +2,7 @@
 
 state: active
 remote: github-public
-updated: 2026-09-05
+updated: 2026-09-08
 stale-after-days: 30
 
 ## kpi
@@ -22,6 +22,9 @@ orrery in the hero over a deep-field sky fixed behind the whole document, drifti
 into one page-wide fixed gradient, so the page reads as a single surface. Cards are
 translucent glass (blur 18px, 40% fill) with display titles, repo slug, tech chips.
 Verified locally: parallax reaches exactly -240px at the foot, no console errors.
+2026-09-08: the warehouse-kpi-dashboard card carries a Live demo link to the Streamlit
+Cloud deployment. It is already on main, where it is live; carried here so the redesign
+does not drop it when it merges.
 
 ## backlog
 - commits c31e726 and 07d37a5, already on origin/main, carry text the public-repo
