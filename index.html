@@ -365,7 +365,7 @@
 
 <div class="wrap">
 
-  <h2>Data &amp; Supply Chain Projects <small>Real-world logistics models and pipelines</small></h2>
+  <h2>Data &amp; Supply Chain Projects <small>Synthetic datasets modelled on real logistics operations</small></h2>
   <div class="grid">
 
     <article class="card">
@@ -373,7 +373,7 @@
         <h3><a href="https://github.com/nqwrc/warehouse-kpi-dashboard">Warehouse KPI Dashboard</a></h3>
         <div class="slug">nqwrc/warehouse-kpi-dashboard</div>
       </div>
-      <p class="desc">Picking accuracy tracked against a 1% error threshold, operator Pareto analysis, inventory turnover, and 30-day cold-storage expiry risk alerting.</p>
+      <p class="desc">Picking accuracy tracked against a 1% error-rate SLA, operator Pareto analysis, inventory turnover, and 30-day cold-storage expiry risk alerting.</p>
       <ul class="tech"><li>Python</li><li>SQLite</li><li>Streamlit</li></ul>
       <p class="note">Six KPI queries behind an interactive dashboard.</p>
       <div class="links">
@@ -389,7 +389,7 @@
       </div>
       <p class="desc">On-time delivery measured against agreed windows, cost per route versus cost per item, and delivery discrepancies identified across B2B and B2C routes.</p>
       <ul class="tech"><li>Python</li><li>pandas</li><li>Jupyter</li></ul>
-      <p class="note">Notebook analysis over real carrier data.</p>
+      <p class="note">4,593 deliveries over 769 simulated routes.</p>
       <div class="links">
         <a href="https://github.com/nqwrc/transport-performance-analysis">Repository</a>
       </div>
@@ -401,8 +401,8 @@
         <div class="slug">nqwrc/qa-reporting-pipeline</div>
       </div>
       <p class="desc">Automated ingestion, validation, and weekly reporting for industrial non-destructive testing quality-control data.</p>
-      <ul class="tech"><li>Python</li><li>SQL</li><li>CLI</li></ul>
-      <p class="note">Scheduled run, validated input, weekly report out.</p>
+      <ul class="tech"><li>Python</li><li>pandas</li><li>pytest</li></ul>
+      <p class="note">Every rejected row keeps the reason it was rejected.</p>
       <div class="links">
         <a href="https://github.com/nqwrc/qa-reporting-pipeline">Repository</a>
       </div>
