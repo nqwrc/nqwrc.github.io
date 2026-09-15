@@ -22,6 +22,17 @@ from the page - Tironian, CER Motore, suckless-harness - added with copy sourced
 from each repo's own README/STATUS, CER Motore's pre-v0.1 status stated plainly.
 Checked for a mobile overflow bug at narrow widths (a DOM-level scrollWidth vs
 clientWidth probe, not just a screenshot): none found, `offenders=[]`.
+Ran a tactical visual audit (visual-spatial skill) after the new cards landed:
+the existing palette, spacing, typography and section-background choices were
+already deliberate and compliant (blue-tinted greys for secondary text, not
+neutral grey; a fixed scrim instead of ad hoc text opacity; custom fonts, no
+framework defaults) - documented here rather than reworked for its own sake.
+The one real finding: both project grids now hold four cards each, and the
+272px card minimum stranded the fourth one alone under three others. Fixed
+to 200px, the widest minimum that still fits four across .wrap's real 880px
+content width (968px max-width minus its own 44px side padding, which was
+the arithmetic error on the first attempt at 220px). Verified at 1024px
+(desktop) and 700px (tablet).
 2026-09-10: three claims corrected against the repositories they point at. The
 transport card said "real carrier data" where the repo generates 4,593 deliveries;
 the QA card claimed a scheduled run and listed SQL, and that repo has no scheduler,
