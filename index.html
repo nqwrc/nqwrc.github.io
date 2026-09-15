@@ -203,8 +203,14 @@
   .grid {
     display: grid;
     /* auto-fill, not auto-fit: a row of two keeps the same card width as a
-       row of three, so the two sections read as one grid. */
-    grid-template-columns: repeat(auto-fill, minmax(272px, 1fr));
+       row of three, so the two sections read as one grid. minmax at 200px,
+       not 272px: both sections now hold four cards, and .wrap's 968px
+       max-width is a border-box (44px padding each side already inside it),
+       so the grid's real content width caps at 880px. 200px is the widest
+       minimum that still lets four cards share one row there
+       (4*200 + 3*20 = 860 <= 880) instead of leaving a lone card on its own
+       line below three others. */
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
   }
 
