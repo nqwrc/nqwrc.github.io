@@ -1,0 +1,16 @@
+# OS cruft
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Editor & local scratch
+.vscode/
+.idea/
+*.swp
+*.local
+.scratch/
+
+# Build & test targets
+node_modules/
+dist/
+.build/
