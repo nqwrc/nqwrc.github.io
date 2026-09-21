@@ -1,8 +1,9 @@
 # status
 
-state: active
+state: next
+goal: G4
 remote: github-public
-updated: 2026-09-16
+updated: 2026-09-21
 stale-after-days: 30
 
 ## kpi
