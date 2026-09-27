@@ -3,7 +3,7 @@
 state: next
 goal: G4
 remote: github-public
-updated: 2026-09-21
+updated: 2026-09-27
 stale-after-days: 30
 
 ## kpi
@@ -19,3 +19,7 @@ None - static landing page; live or not is binary, nothing to measure over time.
 
 ## blockers
 - none
+
+2026-09-27: footer shows legal name + P.IVA 02833300391 (art. 35 DPR 633/72); head carries the Meta
+facebook-domain-verification tag - do not remove it, nqwrc.github.io is the verified domain of the
+Meta business portfolio (verified 2026-09-27).
